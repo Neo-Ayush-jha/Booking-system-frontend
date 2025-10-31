@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 export default function TourDetailPage() {
   const params = useParams();
   const tourId = params.id as string;
-
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL as string) || "http://localhost:5000";
   const [tour, setTour] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -19,7 +19,7 @@ export default function TourDetailPage() {
   useEffect(() => {
     async function fetchTour() {
       try {
-        const res = await fetch(`http://localhost:5000/api/experiences/${tourId}`);
+        const res = await fetch(`${API_BASE}/api/experiences/${tourId}`);
         if (!res.ok) throw new Error('Failed to fetch tour details');
         const data = await res.json();
         setTour(data);

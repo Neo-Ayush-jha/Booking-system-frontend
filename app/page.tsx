@@ -7,15 +7,15 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
 export default function Home() {
-  const [tours, setTours] = useState([]);
+  const [tours, setTours] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL as string) || "http://localhost:5000";
   // Fetch data from backend API
   useEffect(() => {
     const fetchExperiences = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/experiences");
+        const res = await fetch(`${API_BASE}/api/experiences`);
         const data = await res.json();
         setTours(data);
       } catch (err) {
@@ -31,9 +31,9 @@ export default function Home() {
   // Filter tours by search
   const filteredTours = tours.filter(
     (tour) =>
-      tour.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      tour.category?.toLowerCase().includes(searchQuery.toLowerCase())
+      tour?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour?.location?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      tour?.category?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   if (loading) {

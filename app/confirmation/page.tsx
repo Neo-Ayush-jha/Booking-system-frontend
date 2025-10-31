@@ -39,13 +39,15 @@ export default function ConfirmationPage() {
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
   const [isVisible, setIsVisible] = useState(false);
+  const API_BASE =
+    (process.env.NEXT_PUBLIC_API_BASE_URL as string) || "http://localhost:5000";
 
   useEffect(() => {
     const fetchLatestBooking = async () => {
       if (!tourId) return;
 
       try {
-        const res = await fetch(`http://localhost:5000/api/bookings/${tourId}`);
+        const res = await fetch(`${API_BASE}/api/bookings/${tourId}`);
         const data = await res.json();
         setBooking(data);
       } catch (err) {

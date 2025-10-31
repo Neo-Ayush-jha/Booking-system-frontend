@@ -8,6 +8,9 @@ import Link from "next/link";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import axios from "axios";
 
+// Use NEXT_PUBLIC_API_BASE_URL for client-side API base (fallback to localhost for dev)
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL as string) || "http://localhost:5000";
+
 export default function BookingPage() {
   const router = useRouter();
   const params = useParams();
@@ -32,7 +35,7 @@ export default function BookingPage() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/experiences/${tourId}`)
+      .get(`${API_BASE}/api/experiences/${tourId}`)
       .then((res) => setTour(res.data))
       .catch((err) => console.error("Error fetching tour:", err));
   }, [tourId]);
@@ -63,7 +66,7 @@ export default function BookingPage() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/bookings",
+        `${API_BASE}/api/bookings`,
         bookingData
       );
       const bookingId = res.data?.data?.id || res.data?.bookingId;
